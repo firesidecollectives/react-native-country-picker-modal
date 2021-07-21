@@ -224,7 +224,7 @@
   "AQ": {
     "currency": [],
     "callingCode": [
-      "+672"
+      "672"
     ],
     "region": "Antarctic",
     "subregion": "",
@@ -895,7 +895,7 @@
       "NOK"
     ],
     "callingCode": [
-      "+47"
+      "47"
     ],
     "region": "Antarctic",
     "subregion": "",
@@ -3009,7 +3009,7 @@
       "AUD"
     ],
     "callingCode": [
-      "+672"
+      "672"
     ],
     "region": "Antarctic",
     "subregion": "",
@@ -7380,7 +7380,7 @@
       "USD"
     ],
     "callingCode": [
-      "+246"
+      "246"
     ],
     "region": "Americas",
     "subregion": "North America",
