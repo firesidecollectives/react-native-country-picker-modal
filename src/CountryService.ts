@@ -10,9 +10,6 @@ import {
 } from './types'
 import Fuse from 'fuse.js'
 
-const imageJsonUrl =
-  'https://xcarpentier.github.io/react-native-country-picker-modal/countries/'
-
 type CountryMap = { [key in CountryCode]: Country }
 
 interface DataCountry {
@@ -27,17 +24,12 @@ const localData: DataCountry = {
 export const loadDataAsync = ((data: DataCountry) => (
   dataType: FlagType = FlagType.EMOJI,
 ): Promise<CountryMap> => {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     switch (dataType) {
       case FlagType.FLAT:
         if (!data.imageCountries) {
-          fetch(imageJsonUrl)
-            .then((response: Response) => response.json())
-            .then((remoteData: any) => {
-              data.imageCountries = remoteData
-              resolve(data.imageCountries)
-            })
-            .catch(reject)
+          data.imageCountries = require('./assets/data/countries.json')
+          resolve(data.imageCountries)
         } else {
           resolve(data.imageCountries)
         }
@@ -128,7 +120,7 @@ export const getCountriesAsync = async (
   countryCodes?: CountryCode[],
   excludeCountries?: CountryCode[],
   preferredCountries?: CountryCode[],
-  withAlphaFilter?: boolean
+  withAlphaFilter?: boolean,
 ): Promise<Country[]> => {
   const countriesRaw = await loadDataAsync(flagType)
   if (!countriesRaw) {
@@ -136,27 +128,30 @@ export const getCountriesAsync = async (
   }
 
   if (preferredCountries && !withAlphaFilter) {
-    const newCountryCodeList = [...preferredCountries, ...CountryCodeList.filter(code => !preferredCountries.includes(code))]
+    const newCountryCodeList = [
+      ...preferredCountries,
+      ...CountryCodeList.filter(code => !preferredCountries.includes(code)),
+    ]
 
-    const countries = newCountryCodeList.filter(isCountryPresent(countriesRaw))
-    .map((cca2: CountryCode) => ({
-      cca2,
-      ...{
-        ...countriesRaw[cca2],
-        name:
-          (countriesRaw[cca2].name as TranslationLanguageCodeMap)[
-            translation
-          ] ||
-          (countriesRaw[cca2].name as TranslationLanguageCodeMap)['common'],
-      },
-    }))
-    .filter(isRegion(region))
-    .filter(isSubregion(subregion))
-    .filter(isIncluded(countryCodes))
-    .filter(isExcluded(excludeCountries))
-    
+    const countries = newCountryCodeList
+      .filter(isCountryPresent(countriesRaw))
+      .map((cca2: CountryCode) => ({
+        cca2,
+        ...{
+          ...countriesRaw[cca2],
+          name:
+            (countriesRaw[cca2].name as TranslationLanguageCodeMap)[
+              translation
+            ] ||
+            (countriesRaw[cca2].name as TranslationLanguageCodeMap)['common'],
+        },
+      }))
+      .filter(isRegion(region))
+      .filter(isSubregion(subregion))
+      .filter(isIncluded(countryCodes))
+      .filter(isExcluded(excludeCountries))
+
     return countries
-
   } else {
     const countries = CountryCodeList.filter(isCountryPresent(countriesRaw))
       .map((cca2: CountryCode) => ({
