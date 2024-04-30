@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   flagWithSomethingContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexWrap: "nowrap",
     alignItems: 'center',
   },
   something: { fontSize: 16 },
