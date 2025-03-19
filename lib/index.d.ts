@@ -40,7 +40,7 @@ interface Props {
     onClose?(): void;
 }
 declare const Main: {
-    ({ theme, translation, ...props }: Props): JSX.Element;
+    ({ theme, translation, ...props }: Props): React.JSX.Element;
     defaultProps: {
         onSelect: () => void;
         withEmoji: boolean;
